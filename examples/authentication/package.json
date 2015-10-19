@@ -1,5 +1,5 @@
 {
-  "name": "reroute-example",
+  "name": "reroute-example-authentication",
   "version": "0.0.0",
   "description": "Proper state-based routing",
   "main": "index.js",

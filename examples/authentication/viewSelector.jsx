@@ -1,25 +1,9 @@
 import React from 'react';
 import { createSelector } from 'reselect';
-import { createComponentSelector } from '../index';
+import { createComponentSelector, noMatchRouteSelector } from '../../index';
 
-import {
-  home,
-  users,
-  me,
-  user,
-  login,
-} from './routes';
-
-import {
-  Home,
-  Users,
-  Me,
-  User,
-  Error,
-  Login
-} from './containers';
-
-import { noMatchRouteSelector } from '../index';
+import { home, users, me, user, login } from './routes';
+import { Home, Users, Me, User, Login } from './containers';
 
 const userSelector = ({user}) => user;
 const isAuthed = createSelector(
@@ -32,26 +16,26 @@ export const viewSelector = createSelector(
   state => state,
   (noMatch, state) => {
     if (noMatch) {
-      return <Home routingError='Oh snap'/>;
+      return { component: <Home routingError='Oh snap'/> };
     }
     return preAuthSelector(state) || auth(state);
   }
 )
 
 const preAuthSelector = createComponentSelector({
-  [home]: () => <Home/>
+  [home]: () => <Home/>,
+  [users]: () => <Users/>
 });
 
 const auth = createSelector(
   isAuthed,
   state => state,
   (isAuthed, state) => {
-    return isAuthed ? postAuthSelector(state) : <Login/>
+    return isAuthed ? postAuthSelector(state) : { component: <Login/>}
   }
 )
 
 const postAuthSelector = createComponentSelector({
-  [users]: () => <Users/>,
   [me]: () => <Me/>,
   [user]: (urlParams) => <User {...urlParams} />
 });

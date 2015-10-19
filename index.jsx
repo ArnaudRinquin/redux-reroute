@@ -98,7 +98,8 @@ export function createComponentSelector(routeToComponentCreators, locationSelect
     }, null);
 
     if (componentCreator) {
-      return componentCreator(urlParams);
+      const component = componentCreator(urlParams);
+      return { component };
     }
   }
 }

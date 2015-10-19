@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { location } from '../../index';
+import { location } from '../../../index';
 
 import user from './user';
 

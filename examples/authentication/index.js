@@ -5,7 +5,7 @@ import App from './app';
 import store from './store'
 
 import * as routes from './routes';
-import { connectToStore } from '../index';
+import { connectToStore } from '../../index';
 
 connectToStore(store, routes);
 

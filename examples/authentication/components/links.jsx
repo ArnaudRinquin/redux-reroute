@@ -1,15 +1,17 @@
 import React from 'react';
-import { Link } from '../../index';
+import { Link } from '../../../index';
 import { me, user } from '../routes';
 
 export function Links() {
   return (
     <div>
-      <div>Navigation:</div>
-      <a href="#">Home</a>
+      <div>Open pages</div>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#/users">List all users</a></li>
+      </ul>
       <div>Behind authentication</div>
       <ul>
-        <li><a href="#/users">List all users</a></li>
         <li><Link route={me}>Me (Link directive)</Link></li>
         <li><a href="#/users/me">Me</a></li>
         <li><a href="#/users/white">W. White</a></li>
