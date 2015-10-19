@@ -1,0 +1,28 @@
+{
+  "name": "reroute",
+  "version": "0.0.0",
+  "description": "Proper state-based routing",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArnaudRinquin/reroute.git"
+  },
+  "keywords": [
+    "router",
+    "routing"
+  ],
+  "author": "Arnaud Rinquin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ArnaudRinquin/reroute/issues"
+  },
+  "homepage": "https://github.com/ArnaudRinquin/reroute#readme",
+  "dependencies": {
+    "history": "^1.12.5",
+    "react": "^0.14.0",
+    "url-pattern": "^0.10.2"
+  }
+}
