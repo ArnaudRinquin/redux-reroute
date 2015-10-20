@@ -176,7 +176,7 @@ This helper is meant to ease route-pattern mapping to components.
 
 ```js
 // [usual dependencies]
-import { createComponentSelector, connectToStore } from `reroute`;
+import { createComponentSelector, connectToStore, NO_MATCH } from `reroute`;
 
 //
 const routes = {
@@ -192,7 +192,8 @@ connectToStore(store, routes);
 const componentSelector = createComponentSelector({
   [routes.home]: () => <Home>,
   [routes.users]: () => <Users>,
-  [routes.user]: (urlParams) => <User userId={urlParams.userId}>
+  [routes.user]: (urlParams) => <User userId={urlParams.userId}>,
+  [NO_MATCH]: () => <Home routingError='Sorry but I think you are lost.'>
 });
 
 // Connect your component using create componentSelector
