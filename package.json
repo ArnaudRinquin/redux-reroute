@@ -1,8 +1,9 @@
 {
   "name": "reroute",
   "version": "0.0.0",
-  "description": "Proper state-based routing",
-  "main": "index.js",
+  "description": "Location reducer and routing helpers for redux",
+  "main": "index.jsx",
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,7 +13,8 @@
   },
   "keywords": [
     "router",
-    "routing"
+    "routing",
+    "redux"
   ],
   "author": "Arnaud Rinquin",
   "license": "MIT",
