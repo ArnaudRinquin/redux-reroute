@@ -170,6 +170,42 @@ However, here are the bits of code provided by `reroute`:
 * `createComponentSelector` helper to create component selector
 * `noMatchRouteSelector` helper to generate a selector returning whether a route is matched
 
+### `createComponentSelector`
+
+This helper is meant ease route pattern mapping to components.
+
+```js
+// [usual dependencies]
+import { createComponentSelector, connectToStore } from `reroute`;
+
+//
+const routes = {
+  home: '/',
+  users: '/users',
+  user: '/users/:userId'
+};
+
+connectToStore(store, routes);
+
+// Create a component selector that will use `matchedRoute` to
+// pick the right component
+const componentSelector = createComponentSelector({
+  [routes.home]: () => <Home>,
+  [routes.users]: () => <Users>,
+  [routes.user]: (urlParams) => <User userId={urlParams.userId}>
+});
+
+// Connect your component using create componentSelector
+@connect(componentSelector)
+class App extends React.Component {
+  render() {
+    // `this.props.component` is the component you should render
+    const { component } = this.props;
+    return <div class="app">{component}</div>
+  }
+}
+```
+
 ## Recipes / Examples
 
 * [more generic route to component routing](./examples/basic/)
