@@ -21,14 +21,14 @@ Location reducer and routing helpers for [`redux`](https://github.com/rackt/redu
 * `reroute` = minimal base + optional helpers
 * Based on idiomatic `redux` principles (action > reducer > app state > render loop)
 * There is not concept of `ViewContainer`, `Router` or `Route` components
-* Determine which component to render by using a component `selector` (`(appState) => Component`), anywhere in your application
+* Determine which component to render by using a component `selector` (`(appState) => Component`, as defined by [`reselect`](https://github.com/rackt/reselect)), anywhere in your application
 
 ## Features
 
 1. reduce the location into the application state, providing:
   1. matched url pattern
   1. url parameters (within the path or query string)
-1. optionally use provided helpers to generate your component `selector(s)`
+1. optionally use provided helpers to generate your component `selector(s)` (as defined by [`reselect`](https://github.com/rackt/reselect))
 
 ## The minimal example ([source](./examples/minimalist/index.js))
 
@@ -172,7 +172,7 @@ However, here are the bits of code provided by `reroute`:
 
 ### `createComponentSelector`
 
-This helper is meant ease route pattern mapping to components.
+This helper is meant to ease route-pattern mapping to components.
 
 ```js
 // [usual dependencies]
@@ -205,6 +205,11 @@ class App extends React.Component {
   }
 }
 ```
+
+If the logic of your app routing is more complex than just mapping URL
+to component (like authentication), you should still use this helper to
+create component selectors and combine them using [`reselect`](https://github.com/rackt/reselect) as in [this
+example](./examples/authentication/).
 
 ## Recipes / Examples
 
