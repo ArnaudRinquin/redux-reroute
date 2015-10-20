@@ -10,8 +10,8 @@ Location reducer and routing helpers for [`redux`](https://github.com/rackt/redu
 * How to deal with the location changes?
 * Should the URL be the result of the app state?  - Or -
 * Should the application state be the result of the URL?
+* Where do I put my non-location based routing logic (ex: authentication)?
 * How to implement deep linking?
-* How to handle redirections and requirements?
 
 **Choices made by `reroute`**
 
@@ -224,7 +224,17 @@ example](./examples/authentication/).
 * asynchronous location change, allowing things like loading data
 * tests, once the API is a little bit stabilized
 
-## Why not `react-router`?
+## Why not `redux-router`?
 
-We found out than the routing provided by `react-router` creates a second source
-of truth (the first one being the appstate) that conflicts with the core principles of `redux`. It breaks the `action > reducer > app state > render` loop we like so much.
+We found out than the routing provided by `redux-router` does not let you integrate non-location based routing easily.
+
+You will have to work against it to inject your non-location routing logic, by using either:
+
+* more routing logic in the component `Router` outputs, splitting the routing logic into location vs. non-location code.
+* redirecting using `onEnter`, creating some weird non-idiomatic loops.
+* re-wrapped and replace the reducer `react-redux` uses
+* ???
+
+With `reroute`, you don't have to work around anythings. You build the routing by composing location and non-location related application state.
+
+![reroute-vs-redux-router](./images/reroute-vs-redux-router.png)
