@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {render} from 'react-dom';
+import { render } from 'react-dom';
 import { Provider, connect } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 
@@ -71,8 +71,8 @@ class TotalPage extends Component {
 // This component is responsible for picking and rendering the right component
 // It connects to get the `location.matchedRoute` value of the app state
 //
-// Note: this would not be necessary we using a component selector, this is only
-// meant to ease `reroute` principles.
+// Note: this is not necessary when using a component selector, this is only
+// meant to demonstrate the `reroute` principles.
 @connect(state => ({ matchedRoute: state.location.matchedRoute }))
 class ComponentSwitch extends Component {
   render() {

@@ -1,6 +1,6 @@
 # Reroute
 
-Location reducer and routing helper for [`redux`](https://github.com/rackt/redux).
+Location reducer and routing helpers for [`redux`](https://github.com/rackt/redux).
 
 ## Rationale
 
@@ -21,20 +21,20 @@ Location reducer and routing helper for [`redux`](https://github.com/rackt/redux
 * `reroute` = minimal base + optional helpers
 * Based on idiomatic `redux` principles (action > reducer > app state > render loop)
 * There is not concept of `ViewContainer`, `Router` or `Route` components
-* Determine which component to render by using a component `selector` ((`(appState) => Component`)), anywhere in your application
+* Determine which component to render by using a component `selector` (`(appState) => Component`), anywhere in your application
 
 ## Features
 
 1. reduce the location into the application state, providing:
   1. matched url pattern
   1. url parameters (within the path or query string)
-1. optionally use provided helper generate your component `selector(s)`
+1. optionally use provided helpers to generate your component `selector(s)`
 
 ## The minimal example ([source](./examples/minimalist/index.js))
 
 In this example, we demonstrate the base principles:
 
-* declare some route patterns
+* declare some route patterns (using [`url-pattern`](https://github.com/snd/url-pattern) syntaxe)
 * connect `reroute` to the store
 * decide which component to show depending on app state
 * pick url params from app state
@@ -116,8 +116,8 @@ class TotalPage extends Component {
 // This component is responsible for picking and rendering the right component
 // It connects to get the `location.matchedRoute` value of the app state
 //
-// Note: this would not be necessary we using a component selector, this is only
-// meant to ease `reroute` principles.
+// Note: this is not necessary when using a component selector, this is only
+// meant to demonstrate the `reroute` principles.
 @connect(state => ({ matchedRoute: state.location.matchedRoute }))
 class ComponentSwitch extends Component {
   render() {
@@ -170,7 +170,7 @@ However, here are the bits of code provided by `reroute`:
 * `createComponentSelector` helper to create component selector
 * `noMatchRouteSelector` helper to generate a selector returning whether a route is matched
 
-## Recipes
+## Recipes / Examples
 
 * [more generic route to component routing](./examples/basic/)
 * [protect some views behing authentication](./examples/authentication/)
@@ -178,7 +178,7 @@ However, here are the bits of code provided by `reroute`:
 ## TODO
 
 * More examples
-* `#` free path handling
+* `#`-free path handling
 * asynchronous location change, allowing things like loading data
 * tests, once the API is a little bit stabilized
 
