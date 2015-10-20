@@ -7,8 +7,10 @@ export const NO_MATCH = 'NO_MATCH';
 
 export function connectToStore(store, routes) {
 
-  if (typeof routes.length === 'undefined') {
-    routes = Object.keys(routes).map((key) => routes[key]);
+  if (!Array.isArray(routes)) {
+    routes = Object.keys(routes)
+      .map((key) => routes[key])
+      .filter(r => typeof r === 'string' || r.exec);
   }
 
   const history = createHistory();
