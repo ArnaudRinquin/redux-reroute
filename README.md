@@ -1,4 +1,4 @@
-# Reroute
+# reroute
 
 Location reducer and routing helpers for [`redux`](https://github.com/rackt/redux).
 
