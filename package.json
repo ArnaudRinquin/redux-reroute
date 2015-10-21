@@ -22,9 +22,11 @@
     "url": "https://github.com/ArnaudRinquin/reroute/issues"
   },
   "homepage": "https://github.com/ArnaudRinquin/reroute#readme",
+  "peerDependencies": {
+    "react": "^0.14.0"
+  },
   "dependencies": {
     "history": "^1.12.5",
-    "react": "^0.14.0",
     "url-pattern": "^0.10.2"
   }
 }
