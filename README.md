@@ -1,5 +1,7 @@
 # reroute
 
+[![Build Status](https://travis-ci.org/ArnaudRinquin/reroute.svg)](https://travis-ci.org/ArnaudRinquin/reroute)
+
 Location reducer and routing helpers for [`redux`](https://github.com/rackt/redux).
 
 ## Rationale
