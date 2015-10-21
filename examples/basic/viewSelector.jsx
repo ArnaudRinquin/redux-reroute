@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'; // eslint-disable-line no-unused-vars
 import { createComponentSelector, NO_MATCH } from '../../index';
 
 import {
@@ -14,7 +14,7 @@ import {
   A,
   B,
   BDeep,
-  C
+  C,
 } from './containers';
 
 export const viewSelector = createComponentSelector({
@@ -23,5 +23,5 @@ export const viewSelector = createComponentSelector({
   [a]: () => <A/>,
   [b]: () => <B/>,
   [bDeep]: () => <BDeep/>,
-  [c]: (urlParams) => <C {...urlParams}/>
+  [c]: (urlParams) => <C {...urlParams}/>,
 });

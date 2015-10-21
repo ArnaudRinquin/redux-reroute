@@ -1,39 +1,39 @@
 import { createHistory } from 'history';
 import UrlPattern from 'url-pattern';
-import React, { PropTypes } from 'react';
+import React, { PropTypes } from 'react'; // eslint-disable-line no-unused-vars
 
 export const LOCATION_CHANGED = 'LOCATION_CHANGED';
 export const NO_MATCH = 'NO_MATCH';
 
 const noMatchPayload = {
   matchedRoute: NO_MATCH,
-  urlParams: {}
+  urlParams: {},
 };
 
 export function generateLocationDispatcher(patterns, store) {
   return function dispatchLocation(location) {
 
-     const path = location.hash[0] === '#' ? location.hash.slice(1) : '/';
+    const path = location.hash[0] === '#' ? location.hash.slice(1) : '/';
 
-     const payload = patterns.reduce((matching, pattern) => {
-       const urlParams = pattern.match(path);
-       if (urlParams) {
-         return {
-           matchedRoute: pattern.route,
-           path,
-           urlParams
-         }
-       };
+    const payload = patterns.reduce((matching, pattern) => {
+      const urlParams = pattern.match(path);
+      if (urlParams) {
+        return {
+          matchedRoute: pattern.route,
+          path,
+          urlParams,
+        };
+      }
 
-       return matching;
+      return matching;
 
-     }, {...noMatchPayload, path});
+    }, { ...noMatchPayload, path });
 
-     store.dispatch({
-       type: LOCATION_CHANGED,
-       payload
-     });
-   };
+    store.dispatch({
+      type: LOCATION_CHANGED,
+      payload,
+    });
+  };
 }
 
 export function generatePatterns(routes) {
@@ -63,8 +63,8 @@ export function location(state = noMatchPayload, {type, payload}) {
   if (type === LOCATION_CHANGED) {
     return {
       ...state,
-      ...payload
-    }
+      ...payload,
+    };
   }
 
   return state;
@@ -72,7 +72,7 @@ export function location(state = noMatchPayload, {type, payload}) {
 
 export function Link({route, urlParams, children}) {
   const pattern = new UrlPattern(route);
-  return <a href={ `#${ pattern.stringify(urlParams) }` }>{children}</a>
+  return <a href={ `#${ pattern.stringify(urlParams) }` }>{children}</a>;
 }
 
 function defaultLocationSelector({location}) {
@@ -80,16 +80,16 @@ function defaultLocationSelector({location}) {
 }
 
 Link.propTypes = {
-   route: PropTypes.string.isRequired,
-   urlParams: PropTypes.object,
-   children: PropTypes.node
-}
+  route: PropTypes.string.isRequired,
+  urlParams: PropTypes.object,
+  children: PropTypes.node,
+};
 
 export function noMatchRouteSelector(locationSelector = defaultLocationSelector) {
   return function(state) {
     const { matchedRoute } = locationSelector(state);
     return matchedRoute === NO_MATCH ? NO_MATCH : null;
-  }
+  };
 }
 
 export function createComponentSelector(routeToComponentCreators, locationSelector = defaultLocationSelector) {
@@ -109,5 +109,5 @@ export function createComponentSelector(routeToComponentCreators, locationSelect
       const component = componentCreator(urlParams);
       return { component };
     }
-  }
+  };
 }

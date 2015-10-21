@@ -1,23 +1,23 @@
 module.exports = {
   entry: {
     bundle: [
-      './index.js'
-    ]
+      './index.js',
+    ],
   },
   output: {
     path: 'dist',
-    filename: '[name].js'
+    filename: '[name].js',
   },
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx'],
   },
   module: {
     loaders: [
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loaders: ['babel']
-      }
-    ]
+        loaders: ['babel'],
+      },
+    ],
   },
 };

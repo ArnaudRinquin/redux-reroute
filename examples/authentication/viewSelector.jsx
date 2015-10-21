@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'; // eslint-disable-line no-unused-vars
 import { createSelector } from 'reselect';
 import { createComponentSelector, noMatchRouteSelector } from '../../index';
 
-import { home, users, me, user, login } from './routes';
+import { home, users, me, user } from './routes';
 import { Home, Users, Me, User, Login } from './containers';
 
 const userSelector = ({user}) => user;
@@ -20,22 +20,22 @@ export const viewSelector = createSelector(
     }
     return preAuthSelector(state) || auth(state);
   }
-)
+);
 
 const preAuthSelector = createComponentSelector({
   [home]: () => <Home/>,
-  [users]: () => <Users/>
+  [users]: () => <Users/>,
 });
 
 const auth = createSelector(
   isAuthed,
   state => state,
   (isAuthed, state) => {
-    return isAuthed ? postAuthSelector(state) : { component: <Login/>}
+    return isAuthed ? postAuthSelector(state) : { component: <Login/>};
   }
-)
+);
 
 const postAuthSelector = createComponentSelector({
   [me]: () => <Me/>,
-  [user]: (urlParams) => <User {...urlParams} />
+  [user]: (urlParams) => <User {...urlParams} />,
 });

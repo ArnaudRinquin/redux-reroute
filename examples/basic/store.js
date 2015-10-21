@@ -3,7 +3,7 @@ import { location } from '../../index';
 
 const rootReducer = combineReducers({
   // you other reducers
-  location
+  location,
 });
 
 export default createStore(rootReducer);

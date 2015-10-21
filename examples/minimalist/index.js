@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'; // eslint-disable-line no-unused-vars
 import { render } from 'react-dom';
 import { Provider, connect } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
@@ -18,12 +18,12 @@ const counter = (state = 0, {type, by}) => {
     default:
       return state;
   }
-}
+};
 
 // redux reducers and store creation
 const rootReducer = combineReducers({
   location, // the `reroute` location reducer
-  counter // your own reducers
+  counter, // your own reducers
 });
 
 const store = createStore(rootReducer);
@@ -34,11 +34,11 @@ const store = createStore(rootReducer);
 const routes = {
   home: '/',
   buttons: '/path/to/buttons(/by/:by)',
-  total: '/path/to/total'
+  total: '/path/to/total',
 };
 
 // Connect the `reroute` location handler to the store
-const disconnect = connectToStore(store, routes);
+connectToStore(store, routes);
 
 // Regular application top level components connect to redux
 // Only to get access to `actions` and bits of the app state
@@ -80,10 +80,10 @@ class ComponentSwitch extends Component {
 
     // Simply render the right component based on `matchedRoute`
     switch (matchedRoute) {
-      case routes.home: return <div>Home page</div>
-      case routes.buttons: return <ButtonsPage/>
-      case routes.total: return <TotalPage/>
-      default: return <div>unknown route</div>
+      case routes.home: return <div>Home page</div>;
+      case routes.buttons: return <ButtonsPage/>;
+      case routes.total: return <TotalPage/>;
+      default: return <div>unknown route</div>;
     }
   }
 }

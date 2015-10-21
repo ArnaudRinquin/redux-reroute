@@ -1,19 +1,19 @@
 import {
   SUBMIT_LOGIN,
-  SUBMIT_LOGOUT
+  SUBMIT_LOGOUT,
 } from '../actions/login';
 
-export default function userReducer(state = {}, {type, payload}) {
+export default function userReducer(state = {}, {type}) {
   switch (type) {
     case SUBMIT_LOGIN:
       return {
         ...state,
-        authorized: true
+        authorized: true,
       };
     case SUBMIT_LOGOUT:
       return {
         ...state,
-        authorized: false
+        authorized: false,
       };
     default:
       return state;

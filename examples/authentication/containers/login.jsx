@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'; // eslint-disable-line no-unused-vars
 import { connect } from 'react-redux';
 
 import { submitLogin } from '../actions/login';
@@ -15,4 +15,4 @@ export class Login extends Component {
 }
 
 @connect(null, { submitLogin })
-export default class ConnectedLogin extends Login {};
+export default class ConnectedLogin extends Login {}

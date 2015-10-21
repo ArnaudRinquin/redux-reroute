@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'; // eslint-disable-line no-unused-vars
 
 export default ({routingError}) => {
   return (
@@ -11,5 +11,5 @@ export default ({routingError}) => {
       }
 
     </section>
-  )
-}
+  );
+};
