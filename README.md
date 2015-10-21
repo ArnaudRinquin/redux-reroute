@@ -1,6 +1,8 @@
 # redux-reroute
 
 [![Build Status](https://travis-ci.org/ArnaudRinquin/redux-reroute.svg)](https://travis-ci.org/ArnaudRinquin/redux-reroute)
+[![Dependency Status](https://david-dm.org/ArnaudRinquin/redux-reroute.svg)](https://david-dm.org/ArnaudRinquin/redux-reroute)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 Location reducer and routing helpers for [`redux`](https://github.com/rackt/redux).
 
