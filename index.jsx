@@ -5,58 +5,61 @@ import React, { PropTypes } from 'react';
 export const LOCATION_CHANGED = 'LOCATION_CHANGED';
 export const NO_MATCH = 'NO_MATCH';
 
-export function connectToStore(store, routes) {
+const noMatchPayload = {
+  matchedRoute: NO_MATCH,
+  urlParams: {}
+};
 
+export function generateLocationDispatcher(patterns, store) {
+  return function dispatchLocation(location) {
+
+     const path = location.hash[0] === '#' ? location.hash.slice(1) : '/';
+
+     const payload = patterns.reduce((matching, pattern) => {
+       const urlParams = pattern.match(path);
+       if (urlParams) {
+         return {
+           matchedRoute: pattern.route,
+           path,
+           urlParams
+         }
+       };
+
+       return matching;
+
+     }, {...noMatchPayload, path});
+
+     store.dispatch({
+       type: LOCATION_CHANGED,
+       payload
+     });
+   };
+}
+
+export function generatePatterns(routes) {
   if (!Array.isArray(routes)) {
     routes = Object.keys(routes)
       .map((key) => routes[key])
-      .filter(r => typeof r === 'string' || r.exec);
+      .filter(route => typeof route === 'string' || route instanceof RegExp);
   }
 
-  const history = createHistory();
-  const patterns = routes.map((route) => {
+  return routes.map((route) => {
     const pattern = new UrlPattern(route);
+    // unfortunately, UrlPattern does not
+    // keep the original route so we do it manually
     pattern.route = route;
     return pattern;
   });
-
-  const unlisten = history.listen((location) => {
-    const route = location.hash[0] === '#' ? location.hash.slice(1) : '/';
-
-    const payload = patterns.reduce((matching, pattern) => {
-      const urlParams = pattern.match(route);
-      if (urlParams) {
-        return {
-          matchedRoute: pattern.route,
-          urlParams
-        }
-      };
-
-      return matching;
-
-    }, null) || {
-      matchedRoute: NO_MATCH,
-      urlParams: {}
-    };
-
-    store.dispatch({
-      type: LOCATION_CHANGED,
-      payload
-    });
-
-  });
-
-  return unlisten;
-
 }
 
-
-const initialState = {
-  matchedRoute: NO_MATCH,
-  urlParms: {}
+export function connectToStore(store, routes) {
+  const history = createHistory();
+  const patterns = generatePatterns(routes);
+  const locationDispatcher = generateLocationDispatcher(patterns, store);
+  return history.listen(locationDispatcher);
 }
 
-export function location(state = initialState, {type, payload}) {
+export function location(state = noMatchPayload, {type, payload}) {
   if (type === LOCATION_CHANGED) {
     return {
       ...state,
