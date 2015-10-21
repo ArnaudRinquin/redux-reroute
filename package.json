@@ -1,6 +1,5 @@
 {
   "name": "redux-reroute",
-  "version": "0.0.0",
   "description": "Location reducer and routing helpers for redux",
   "main": "index.jsx",
   "scripts": {
@@ -8,11 +7,12 @@
     "pretest": "npm run lint",
     "test": "mocha --compilers js:babel/register --recursive",
     "test:watch": "npm test -- --watch",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ArnaudRinquin/redux-reroute.git"
+    "url": "https://github.com/ArnaudRinquin/redux-reroute.git"
   },
   "keywords": [
     "reroute",
@@ -43,7 +43,8 @@
     "eslint": "^1.7.2",
     "eslint-plugin-react": "^3.6.3",
     "expect": "^1.12.2",
-    "mocha": "^2.3.3"
+    "mocha": "^2.3.3",
+    "semantic-release": "^4.3.5"
   },
   "czConfig": {
     "path": "./node_modules/cz-conventional-changelog"
