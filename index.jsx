@@ -1,6 +1,6 @@
 import { createHistory } from 'history';
 import UrlPattern from 'url-pattern';
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 export const LOCATION_CHANGED = 'LOCATION_CHANGED';
 export const NO_MATCH = 'NO_MATCH';
@@ -76,18 +76,21 @@ function defaultLocationSelector({location}) {
   return location;
 }
 
+Link.propTypes = {
+   route: PropTypes.string.isRequired,
+   urlParams: PropTypes.object,
+   children: PropTypes.node
+}
+
 export function noMatchRouteSelector(locationSelector = defaultLocationSelector) {
   return function(state) {
     const { matchedRoute } = locationSelector(state);
-
     return matchedRoute === NO_MATCH ? NO_MATCH : null;
   }
 }
 
 export function createComponentSelector(routeToComponentCreators, locationSelector = defaultLocationSelector) {
-
   const routes = Object.keys(routeToComponentCreators);
-
   return function componentSelector(state) {
 
     const { matchedRoute, urlParams } = locationSelector(state);
