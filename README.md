@@ -1,6 +1,6 @@
-# reroute
+# redux-reroute
 
-[![Build Status](https://travis-ci.org/ArnaudRinquin/reroute.svg)](https://travis-ci.org/ArnaudRinquin/reroute)
+[![Build Status](https://travis-ci.org/ArnaudRinquin/redux-reroute.svg)](https://travis-ci.org/ArnaudRinquin/redux-reroute)
 
 Location reducer and routing helpers for [`redux`](https://github.com/rackt/redux).
 
@@ -15,12 +15,12 @@ Location reducer and routing helpers for [`redux`](https://github.com/rackt/redu
 * Where do I put my non-location based routing logic (ex: authentication)?
 * How to implement deep linking?
 
-**Choices made by `reroute`**
+**Choices made by `redux-reroute`**
 
 * The application state remains the only source of truth
 * The location, or url, is only a part of the application state
 * It is up to the developer to build the decision tree resulting in the intended UI
-* `reroute` = minimal base + optional helpers
+* `redux-reroute` = minimal base + optional helpers
 * Based on idiomatic `redux` principles (action > reducer > app state > render loop)
 * There is not concept of `ViewContainer`, `Router` or `Route` components
 * Determine which component to render by using a component `selector` (`(appState) => Component`, as defined by [`reselect`](https://github.com/rackt/reselect)), anywhere in your application
@@ -50,7 +50,7 @@ import { render } from 'react-dom';
 import { Provider, connect } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 
-import { connectToStore, location } from '../../index';
+import { connectToStore, location } from 'redux-reroute';
 
 // Regular example actions and reducers
 const increment = (by = 1) => ({type: 'INCREMENT', by});
@@ -230,7 +230,7 @@ The only side effect is that the various helpers won't find the `location` data 
 
 ```js
 
-import { location } from 'reroute';
+import { location } from 'redux-reroute';
 import { combineReducer } from 'redux';
 import { myReducer } from './reducers/mine';
 import { myOtherReducer } from './reducers/other';

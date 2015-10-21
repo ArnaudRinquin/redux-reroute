@@ -1,5 +1,5 @@
 {
-  "name": "reroute",
+  "name": "redux-reroute",
   "version": "0.0.0",
   "description": "Location reducer and routing helpers for redux",
   "main": "index.jsx",
@@ -13,9 +13,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ArnaudRinquin/reroute.git"
+    "url": "git+https://github.com/ArnaudRinquin/redux-reroute.git"
   },
   "keywords": [
+    "reroute",
     "router",
     "routing",
     "redux"
@@ -23,9 +24,9 @@
   "author": "Arnaud Rinquin",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ArnaudRinquin/reroute/issues"
+    "url": "https://github.com/ArnaudRinquin/redux-reroute/issues"
   },
-  "homepage": "https://github.com/ArnaudRinquin/reroute#readme",
+  "homepage": "https://github.com/ArnaudRinquin/redux-reroute#readme",
   "dependencies": {
     "history": "^1.12.5",
     "url-pattern": "^0.10.2"
