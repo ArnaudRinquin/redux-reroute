@@ -170,7 +170,7 @@ However, here are the bits of code provided by `reroute`:
 * `createComponentSelector` helper to create component selector
 * `noMatchRouteSelector` helper to generate a selector returning whether a route is matched
 
-### `createComponentSelector`
+### `createComponentSelector(routeToComponentCreators, [locationSelector])`
 
 This helper is meant to ease route-pattern mapping to components.
 
@@ -216,6 +216,49 @@ example](./examples/authentication/).
 
 * [more generic route to component routing](./examples/basic/)
 * [protect some views behing authentication](./examples/authentication/)
+
+### Moving `location` data within the application state tree
+
+In most case, the `location` reducer will be used right in the root reducer so
+the `location` data is there, at the root.
+
+However, you might want to move it somewhere else. _No problem_.
+
+The only side effect is that the various helpers won't find the `location` data where they expect it to be. All you need to do is to pass them the optional `location` selector.
+
+```js
+
+import { location } from 'reroute';
+import { combineReducer } from 'redux';
+import { myReducer } from './reducers/mine';
+import { myOtherReducer } from './reducers/other';
+
+// manually building an `stuff` reducer containing the `location` data under `path`
+const stuff = (state = {}, action) {
+  return {
+    path: location(state.path, action)
+  };
+}
+
+const rootReducer = combineReducer({
+  myReducer,
+  myOtherReducer,
+  stuff
+});
+
+// in this context, the `location` data will accessible this way:
+// location = store.getState().stuff.path
+
+// Just create the location selector pointing to the right place
+const locationSelector = (state) => state.stuff.path
+
+// Example for `createComponentSelector`
+const componentSelector = createComponentSelector({
+  // your regular routePattern > component settings
+  [routes.home]: <Home/>
+  [routes.users]: <Users/>
+}, locationSelector); // <- the last option parameter is the locationSelector
+```
 
 ## TODO
 
