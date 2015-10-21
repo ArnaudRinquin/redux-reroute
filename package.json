@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "description": "Location reducer and routing helpers for redux",
   "main": "index.jsx",
-  "private": true,
   "scripts": {
     "lint": "eslint index.jsx examples",
     "pretest": "npm run lint",
