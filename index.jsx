@@ -36,20 +36,25 @@ export function generateLocationDispatcher(patterns, store) {
   };
 }
 
-export function generatePatterns(routes) {
-  if (!Array.isArray(routes)) {
-    routes = Object.keys(routes)
-      .map((key) => routes[key])
-      .filter(route => typeof route === 'string' || route instanceof RegExp);
-  }
 
-  return routes.map((route) => {
-    const pattern = new UrlPattern(route);
-    // unfortunately, UrlPattern does not
-    // keep the original route so we do it manually
-    pattern.route = route;
-    return pattern;
-  });
+const isMatchable = (thing) => typeof thing === 'string' || thing instanceof RegExp;
+const toPattern = (route) => {
+  const pattern = new UrlPattern(route);
+  // unfortunately, UrlPattern does not
+  // keep the original route so we do it manually
+  pattern.route = route;
+  return pattern;
+};
+
+const toArray = (thing) => {
+  if (Array.isArray(thing)) return thing;
+  return Object.keys(thing).map((key) => thing[key]);
+};
+
+export function generatePatterns(routes) {
+  return toArray(routes)
+      .filter(isMatchable)
+      .map(toPattern);
 }
 
 export function connectToStore(store, routes) {
