@@ -44,7 +44,8 @@
     "eslint-plugin-react": "^3.6.3",
     "expect": "^1.12.2",
     "mocha": "^2.3.3",
-    "semantic-release": "^4.3.5"
+    "semantic-release": "^4.3.5",
+    "sinon": "^1.17.2"
   },
   "czConfig": {
     "path": "./node_modules/cz-conventional-changelog"

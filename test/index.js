@@ -1,10 +1,12 @@
 import expect from 'expect';
+import { spy } from 'sinon';
 import {
   LOCATION_CHANGED,
   NO_MATCH,
   generatePatterns,
   extractFromHash,
   pathToAction,
+  generateLocationDispatcher,
 } from '../index.jsx';
 import UrlPattern from 'url-pattern';
 
@@ -89,21 +91,21 @@ describe('extractFromHash(location)', () => {
   });
 });
 
+function matchingPattern(route, urlParams) {
+  return {
+    route,
+    match: () => urlParams,
+  };
+}
+
+function nonMatchingPattern(route) {
+  return {
+    route,
+    match: () => null,
+  };
+}
+
 describe('pathToAction', () => {
-
-  function matchingPattern(route, urlParams) {
-    return {
-      route,
-      match: () => urlParams,
-    };
-  }
-
-  function nonMatchingPattern(route) {
-    return {
-      route,
-      match: () => null,
-    };
-  }
 
   it('returns a LOCATION_CHANGED type action with matchedRoute and urlParams as payload', () => {
     const patterns = [
@@ -146,6 +148,74 @@ describe('pathToAction', () => {
       expect(type).toBe(LOCATION_CHANGED);
       expect(matchedRoute).toBe('theLastOneMatching');
       expect(urlParams).toEqual({isThe:'oneWeWant'});
+    });
+  });
+});
+
+describe('generateLocationDispatcher(patterns, store, extractPath)', () => {
+  it('should return a dispatchLocation function', () => {
+    expect(typeof generateLocationDispatcher()).toBe('function');
+  });
+
+  describe('returned function', function (){
+    beforeEach(() => {
+      this.store = {
+        dispatch(){},
+      };
+      this.dispatchSpy = spy(this.store, 'dispatch');
+
+      this.patterns = [
+        matchingPattern('matching', {}),
+        nonMatchingPattern('non-matching'),
+        matchingPattern('lastMatching', {foo:'bar'}),
+      ];
+
+      this.extractPath = () => 'extractedPath';
+
+      this.dispatchLocation = generateLocationDispatcher(this.patterns, this.store, this.extractPath);
+    });
+
+    it('should dispatch an action', () => {
+      this.dispatchLocation('location');
+      expect(this.dispatchSpy.callCount).toBe(1);
+    });
+
+    describe('disaptchedAction', () => {
+      beforeEach(() => {
+        this.dispatchLocation('location');
+        this.action = this.dispatchSpy.args[0][0];
+      });
+
+      it('should be of type LOCATION_CHANGED', () => {
+        expect(this.action.type).toBe(LOCATION_CHANGED);
+      });
+
+      it('should have matched pattern as `matchedRoute` in payload', () => {
+        const {payload: {matchedRoute}} = this.action;
+        expect(matchedRoute).toBe('lastMatching');
+      });
+
+      it('should have matched pattern result as `urlParams` in payload', () => {
+        const {payload: {urlParams}} = this.action;
+        expect(urlParams).toEqual({foo:'bar'});
+      });
+
+      it('should have extracted path as `urlParams` in payload', () => {
+        const {payload: {path}} = this.action;
+        expect(path).toEqual('extractedPath');
+      });
+    });
+
+    context('when called without extraction path', () => {
+      beforeEach(() => {
+        this.dispatchLocation = generateLocationDispatcher(this.patterns, this.store);
+      });
+
+      it('should extract route from hash by default', () => {
+        this.dispatchLocation({hash: '#/route/to/anything'});
+        const action = this.dispatchSpy.args[0][0];
+        expect(action.payload.path).toEqual('/route/to/anything');
+      });
     });
   });
 });
