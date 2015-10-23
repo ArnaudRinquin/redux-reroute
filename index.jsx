@@ -10,32 +10,46 @@ const noMatchPayload = {
   urlParams: {},
 };
 
-export function generateLocationDispatcher(patterns, store) {
+export const extractFromHash = (location) => {
+  if (!location.hash) {
+    return '/';
+  }
+
+  let path = location.hash;
+  // remove # prefix
+  path = path[0] === '#' ? path.slice(1) : path;
+  // ensure / prefix
+  path = path[0] === '/' ? path : `/${path}`;
+
+  return path;
+};
+
+export const pathToAction = (path, patterns) => {
+  const payload = patterns.reduce((matching, pattern) => {
+    const urlParams = pattern.match(path);
+    if (urlParams) {
+      return {
+        matchedRoute: pattern.route,
+        path,
+        urlParams,
+      };
+    }
+
+    return matching;
+
+  }, { ...noMatchPayload, path });
+
+  return {
+    type: LOCATION_CHANGED,
+    payload,
+  };
+};
+
+export function generateLocationDispatcher(patterns, store, extractPath = extractFromHash) {
   return function dispatchLocation(location) {
-
-    const path = location.hash[0] === '#' ? location.hash.slice(1) : '/';
-
-    const payload = patterns.reduce((matching, pattern) => {
-      const urlParams = pattern.match(path);
-      if (urlParams) {
-        return {
-          matchedRoute: pattern.route,
-          path,
-          urlParams,
-        };
-      }
-
-      return matching;
-
-    }, { ...noMatchPayload, path });
-
-    store.dispatch({
-      type: LOCATION_CHANGED,
-      payload,
-    });
+    store.dispatch(pathToAction(extractPath(location), patterns));
   };
 }
-
 
 const isMatchable = (thing) => typeof thing === 'string' || thing instanceof RegExp;
 const toPattern = (route) => {
@@ -53,8 +67,8 @@ const toArray = (thing) => {
 
 export function generatePatterns(routes) {
   return toArray(routes)
-      .filter(isMatchable)
-      .map(toPattern);
+    .filter(isMatchable)
+    .map(toPattern);
 }
 
 export function connectToStore(store, routes) {
@@ -80,15 +94,15 @@ export function Link({route, urlParams, children}) {
   return <a href={ `#${ pattern.stringify(urlParams) }` }>{children}</a>;
 }
 
-function defaultLocationSelector({location}) {
-  return location;
-}
-
 Link.propTypes = {
   route: PropTypes.string.isRequired,
   urlParams: PropTypes.object,
   children: PropTypes.node,
 };
+
+function defaultLocationSelector({location}) {
+  return location;
+}
 
 export function noMatchRouteSelector(locationSelector = defaultLocationSelector) {
   return function(state) {

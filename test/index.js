@@ -1,6 +1,10 @@
 import expect from 'expect';
 import {
+  LOCATION_CHANGED,
+  NO_MATCH,
   generatePatterns,
+  extractFromHash,
+  pathToAction,
 } from '../index.jsx';
 import UrlPattern from 'url-pattern';
 
@@ -56,6 +60,92 @@ describe('generatePatterns', () => {
       const patternsFromObject = generatePatterns(routeObject);
       const patternsFromArray = generatePatterns(routes);
       expect(patternsFromObject).toEqual(patternsFromArray);
+    });
+  });
+});
+
+describe('extractFromHash(location)', () => {
+  it('should return location.hash', function(){
+    expect(extractFromHash({hash: '/foo'})).toEqual('/foo');
+  });
+
+  it('should remove "#" prefix', function(){
+    expect(extractFromHash({hash: '#/foo'})).toEqual('/foo');
+  });
+
+  it('should ensure a "/" prefix', function(){
+    expect(extractFromHash({hash: '#foo'})).toEqual('/foo');
+    expect(extractFromHash({hash: 'foo'})).toEqual('/foo');
+  });
+
+  it('should return "/" when hash is falsy', () =>{
+    expect(extractFromHash({hash: null})).toEqual('/');
+    expect(extractFromHash({hash: undefined})).toEqual('/');
+    expect(extractFromHash({hash: false})).toEqual('/');
+  });
+
+  it('should return "/" when hash is empty string', () => {
+    expect(extractFromHash({hash: ''})).toEqual('/');
+  });
+});
+
+describe('pathToAction', () => {
+
+  function matchingPattern(route, urlParams) {
+    return {
+      route,
+      match: () => urlParams,
+    };
+  }
+
+  function nonMatchingPattern(route) {
+    return {
+      route,
+      match: () => null,
+    };
+  }
+
+  it('returns a LOCATION_CHANGED type action with matchedRoute and urlParams as payload', () => {
+    const patterns = [
+      matchingPattern('matching', {foo:'bar'}),
+      nonMatchingPattern('non-matching'),
+    ];
+
+    const action = pathToAction('whatever', patterns);
+    const {type, payload} = action;
+    const {matchedRoute, urlParams} = payload;
+
+    expect(type).toBe(LOCATION_CHANGED);
+    expect(matchedRoute).toBe('matching');
+    expect(urlParams).toEqual({foo:'bar'});
+  });
+
+  it('returns an LOCATION_CHANGED action with the NO_MATCH and empty object as payload', () => {
+    const action = pathToAction('whatever', []);
+    const {type, payload} = action;
+    const {matchedRoute, urlParams} = payload;
+
+    expect(type).toBe(LOCATION_CHANGED);
+    expect(matchedRoute).toBe(NO_MATCH);
+    expect(urlParams).toEqual({});
+  });
+
+  context('when many routes match', () => {
+    it('returns an aciton out out the last matching pattern', () => {
+      const patterns = [
+        matchingPattern('matching', {foo:'bar'}),
+        matchingPattern('matching', {foo:'bar2'}),
+        matchingPattern('matching', {foo:'bar3'}),
+        matchingPattern('theLastOneMatching', {isThe:'oneWeWant'}),
+      ];
+
+      const action = pathToAction('whatever', patterns);
+      const {type, payload} = action;
+      const {matchedRoute, urlParams} = payload;
+
+      expect(type).toBe(LOCATION_CHANGED);
+      expect(matchedRoute).toBe('theLastOneMatching');
+      expect(urlParams).toEqual({isThe:'oneWeWant'});
     });
   });
 });
