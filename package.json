@@ -28,7 +28,7 @@
   "homepage": "https://github.com/ArnaudRinquin/redux-reroute#readme",
   "dependencies": {
     "history": "^1.13.0",
-    "url-pattern": "^0.10.2"
+    "url-pattern": "^1.0.1"
   },
   "peerDependencies": {
     "react": ">= 0.14.1"
