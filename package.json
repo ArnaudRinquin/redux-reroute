@@ -31,7 +31,7 @@
     "url-pattern": "^1.0.1"
   },
   "peerDependencies": {
-    "react": ">=0.14.3"
+    "react": ">=0.14.7"
   },
   "devDependencies": {
     "babel": "^6.0.0",
