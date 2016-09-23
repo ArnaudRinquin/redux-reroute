@@ -42,7 +42,7 @@
     "babel-preset-stage-0": "^6.0.15",
     "commitizen": "^2.4.0",
     "cz-conventional-changelog": "^1.1.4",
-    "eslint": "^1.8.0",
+    "eslint": "^3.6.0",
     "eslint-plugin-react": "^3.6.3",
     "expect": "^1.13.4",
     "mocha": "^2.3.3",
